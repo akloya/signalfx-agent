@@ -1,6 +1,6 @@
 # *Required* The access token for the org that you wish to send metrics to.
-signalFxAccessToken: ${SIGNALFX_ACCESS_TOKEN}
-ingestUrl: ${SIGNALFX_INGEST_URL:"https://ingest.signalfx.com"}
+signalFxAccessToken: ${SFX_ACCESS_TOKEN}
+ingestUrl: ${SFX_INGEST_URL}
 
 intervalSeconds: 10
 

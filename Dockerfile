@@ -304,6 +304,7 @@ COPY --from=python-plugins /usr/local/lib/python2.7/ /lib/python2.7
 
 COPY neopy /neopy
 COPY scripts/umount-hostfs-non-persistent /bin/umount-hostfs-non-persistent
+COPY deployments/docker/agent.yaml /etc/signalfx/agent.yaml
 
 RUN mkdir -p /run/collectd /var/run/ &&\
     ln -s /var/run/signalfx-agent /run &&\
@@ -376,6 +377,7 @@ RUN apt update &&\
     apt install -y pandoc
 
 COPY docs/signalfx-agent.1.md /tmp/signalfx-agent.1.md
+# Create the man page for the agent
 RUN mkdir /docs &&\
     pandoc --standalone --to man /tmp/signalfx-agent.1.md -o /docs/signalfx-agent.1
 
@@ -404,6 +406,8 @@ COPY --from=pandoc-converter /docs/signalfx-agent.1 ./signalfx-agent.1
 COPY packaging/etc/agent.yaml ./agent.yaml
 
 COPY --from=final-image / ./signalfx-agent/
+# Remove the agent config so it doesn't confuse people in the final output.
+RUN rm ./SOURCES/signalfx-agent/etc/signalfx/agent.yaml
 
 
 ###### RPM Packager #######
@@ -421,3 +425,5 @@ COPY packaging/rpm/add-output-to-repo ./add-output-to-repo
 COPY --from=pandoc-converter /docs/signalfx-agent.1 ./SOURCES/signalfx-agent.1
 
 COPY --from=final-image / ./SOURCES/signalfx-agent/
+# Remove the agent config so it doesn't confuse people in the final output.
+RUN rm ./SOURCES/signalfx-agent/etc/signalfx/agent.yaml
