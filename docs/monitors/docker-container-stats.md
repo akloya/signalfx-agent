@@ -14,6 +14,8 @@ itself) and you are using the default Docker UNIX socket URL, you will
 probably need to add the `signalfx-agent` user to the `docker` group in
 order to have permission to access the Docker API via the socket.
 
+`sudo usermod -a -G docker signalfx-agent`
+
 Requires Docker API version 1.22+.
 
 
